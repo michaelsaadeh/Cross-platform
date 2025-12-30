@@ -9,6 +9,12 @@ workflows:
           if [ ! -d "android" ] || [ ! -f "android/gradle/wrapper/gradle-wrapper.jar" ]; then
             flutter create --platforms=android .
           fi
+      - name: Ensure Gradle wrapper jar
+        script: |
+          if [ ! -f "android/gradle/wrapper/gradle-wrapper.jar" ]; then
+            curl -L -o /tmp/gradle.zip https://services.gradle.org/distributions/gradle-7.6.1-bin.zip
+            unzip -p /tmp/gradle.zip gradle-7.6.1/lib/gradle-wrapper-7.6.1.jar > android/gradle/wrapper/gradle-wrapper.jar
+          fi
       - name: Get dependencies
         script: flutter pub get
       - name: Build APK

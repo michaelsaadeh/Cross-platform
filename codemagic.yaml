@@ -4,6 +4,11 @@ workflows:
     environment:
       flutter: stable
     scripts:
+      - name: Ensure Android scaffold
+        script: |
+          if [ ! -d "android" ] || [ ! -f "android/gradle/wrapper/gradle-wrapper.jar" ]; then
+            flutter create --platforms=android .
+          fi
       - name: Get dependencies
         script: flutter pub get
       - name: Build APK
